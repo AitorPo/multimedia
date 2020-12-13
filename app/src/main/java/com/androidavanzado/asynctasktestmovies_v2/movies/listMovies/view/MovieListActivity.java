@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.androidavanzado.asynctasktestmovies_v2.R;
 import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
-import com.androidavanzado.asynctasktestmovies_v2.movies.detailSMovie.view.DetailsActivity;
+import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view.DetailsMovieActivity;
 import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.contract.MovieContract;
 import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.presenter.MoviePresenter;
 
@@ -22,6 +23,9 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
     private RecyclerView.LayoutManager layoutManager;
     public static final String EXTRA_MESSAGE = "Movie.MESSAGE";
     public static final String EXTRA_MESSAGE_IMAGE = "Movie.MESSAGE_IMAGE";
+    public static final String EXTRA_MESSAGE_ID = "Movie.MESSAGE_ID";
+
+    public static int idMovie;
 
 
     @Override
@@ -45,22 +49,21 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
         adapter = new MovieListAdapter(movies, this, new MovieListAdapter.OnCardClickListener() {
             @Override
             public void onCardClick(int id, int position) {
-                Intent intent = new Intent(MovieListActivity.this, DetailsActivity.class);
+                Intent intent = new Intent(MovieListActivity.this, DetailsMovieActivity.class);
                 //Obtenemos los datos de la película "clicada"
-                String movieTitle = movies.get(position).getTitle();
-                String image = movies.get(position).getPoster_path();
+                //String movieTitle = movies.get(position).getTitle();
+                idMovie = movies.get(position).getId();
+                //String image = movies.get(position).getPoster_path();
                 //Pasamos los datos de la película "clicada" al activity de detalles
-                intent.putExtra(EXTRA_MESSAGE, movieTitle);
-                intent.putExtra(EXTRA_MESSAGE_IMAGE, image);
+                //intent.putExtra("DETAILS_MOVIE", position);
+                /*intent.putExtra(EXTRA_MESSAGE, movieTitle);
+                intent.putExtra(EXTRA_MESSAGE_ID, idMovie);
+                intent.putExtra(EXTRA_MESSAGE_IMAGE, image);*/
                 //Iniciamos el intent
                 startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
-
-
-
-
     }
 
     @Override

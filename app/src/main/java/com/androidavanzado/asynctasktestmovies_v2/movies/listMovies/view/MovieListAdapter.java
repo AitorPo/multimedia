@@ -42,11 +42,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         holder.movie = movies.get(position);
-        holder.bind(movies.get(position), cardClickListener);
+        holder.bind(movies.get(position),cardClickListener);
+
         holder.tvTitle.setText(holder.movie.getTitle());
-        holder.tvVote.setText(holder.movie.getVoteAverage());
-
-
+        //Obtenemos el string del double que devuelve getVoteAverage()
+        holder.tvVote.setText(String.valueOf(holder.movie.getVoteAverage()));
         Glide.with(context).load("https://image.tmdb.org/t/p/original" + holder.movie.getPoster_path())
                 .into(holder.ivPoster);
     }

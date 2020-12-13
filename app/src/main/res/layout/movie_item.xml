@@ -26,37 +26,41 @@
             android:layout_weight="1"
             android:text="1"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvNote"
-            app:layout_constraintStart_toEndOf="@+id/tvNote"
-            app:layout_constraintTop_toTopOf="@+id/tvNote" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvNota"
+            app:layout_constraintStart_toEndOf="@+id/tvNota"
+            app:layout_constraintTop_toTopOf="@+id/tvNota" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="64dp"
             android:layout_weight="1"
             android:text="Título"
-            android:textSize="25sp"
+            android:textAlignment="viewStart"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/ivPoster"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivPoster"
             app:layout_constraintTop_toTopOf="@+id/ivPoster"
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/ivPoster"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="152dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/tvNote"
+            android:id="@+id/tvNota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="Nota:"
             app:layout_constraintBottom_toBottomOf="@+id/ivPoster"
             app:layout_constraintStart_toEndOf="@+id/ivPoster"

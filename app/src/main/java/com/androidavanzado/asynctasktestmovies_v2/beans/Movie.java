@@ -23,7 +23,7 @@ public class Movie {
     private String title;
     private String overview;
     private String poster_path;
-    private String vote_average;
+    private double vote_average;
 
     public int getId() {
         return id;
@@ -49,8 +49,8 @@ public class Movie {
     public void setPoster_path(String poster_path) {
         this.poster_path = poster_path;
     }
-    public String getVoteAverage() { return vote_average; }
-    public void setVoteAverage(String vote_average) { this.vote_average = vote_average; }
+    public double getVoteAverage() { return vote_average; }
+    public void setVoteAverage(double vote_average) { this.vote_average = vote_average; }
 
     public static ArrayList<Movie> getArrayListFromJSON(JSONArray movieList){
         ArrayList<Movie> movieArrayList = null;
@@ -70,7 +70,7 @@ public class Movie {
 
                 movie.setId(jsonObject.getInt(ID));
                 movie.setTitle(jsonObject.getString(TITLE));
-                movie.setVoteAverage(jsonObject.getString(VOTE_AVERAGE));
+                movie.setVoteAverage(jsonObject.getDouble(VOTE_AVERAGE));
                 movie.setOverview(jsonObject.getString(OVERVIEW));
                 movie.setPoster_path(jsonObject.getString(POSTER_PATH));
                 //Añadimos los objetos Movie a la lista creada en el método

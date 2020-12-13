@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class MovieModel implements MovieContract.Model {
 
-    private static final String URL = "https://api.themoviedb.org/3/movie/popular?api_key=d9c4177bb1cc819d43088d25fbe2474c&language=en-US";
+    private static final String URL = "https://api.themoviedb.org/3/movie/popular?api_key=d9c4177bb1cc819d43088d25fbe2474c&language=es-ES";
     private ArrayList<Movie> movieArrayList;
     OnListMovieListener onListMovieListener;
 
@@ -32,11 +32,6 @@ public class MovieModel implements MovieContract.Model {
         @Override
         protected Boolean doInBackground(String... strings) {
             Post post = new Post();
-            HashMap<String, String> data = new HashMap<>();
-            // Key - Value
-            data.put("api_key", "e61e68e7e4858d661a6479587ff29ec2");
-            data.put("language", "es-Es");
-            data.put("page", "1");
             JSONObject objectMovies = post.getServerDataGetObject(URL);
             try {
                 JSONArray movieArray = objectMovies.getJSONArray("results");

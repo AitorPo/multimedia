@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.detailSMovie.view.DetailsActivity"
+            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view.DetailsMovieActivity"
             android:label="@string/Detalles" />
         <activity android:name=".movies.listMovies.view.MovieListActivity">
             <intent-filter>

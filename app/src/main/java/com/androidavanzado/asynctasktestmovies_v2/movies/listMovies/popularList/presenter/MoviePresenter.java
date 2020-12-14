@@ -1,8 +1,8 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.presenter;
+package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.presenter;
 
 import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.contract.MovieContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.model.MovieModel;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.contract.MovieContract;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.model.MovieModel;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,6 @@ public class MoviePresenter implements MovieContract.Presenter {
         this.view = view;
         this.movieModel = new MovieModel();
     }
-
 
     @Override
     public void getMovieList() {

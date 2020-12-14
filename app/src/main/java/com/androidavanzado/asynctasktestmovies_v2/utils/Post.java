@@ -91,7 +91,7 @@ public class Post {
                 JSONArray jsonArray = null;
                 try {
                     if (inputStream != null) {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                         StringBuilder stringBuilder = new StringBuilder();
                         String line = null;
                         while ((line = reader.readLine()) != null) {

@@ -1,4 +1,4 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.contract;
+package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.contract;
 
 import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
 

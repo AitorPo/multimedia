@@ -2,4 +2,5 @@
     <string name="app_name">AsyncTaskTestMovies_v2</string>
     <string name="Detalles">Detalles</string>
     <string name="Generos">Géneros</string>
+    <string name="PeliculasPorGenero">GenreMovies</string>
 </resources>

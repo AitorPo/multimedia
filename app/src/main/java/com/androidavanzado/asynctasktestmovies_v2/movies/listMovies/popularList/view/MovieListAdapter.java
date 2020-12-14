@@ -1,4 +1,4 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view;
+package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;

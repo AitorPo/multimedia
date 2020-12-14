@@ -1,9 +1,9 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.model;
+package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.model;
 
 import android.os.AsyncTask;
 
 import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.contract.MovieContract;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.contract.MovieContract;
 import com.androidavanzado.asynctasktestmovies_v2.utils.Post;
 
 import org.json.JSONArray;
@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MovieModel implements MovieContract.Model {
 

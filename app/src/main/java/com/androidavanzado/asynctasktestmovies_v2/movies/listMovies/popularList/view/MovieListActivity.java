@@ -1,7 +1,6 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view;
+package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,15 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.androidavanzado.asynctasktestmovies_v2.R;
-import com.androidavanzado.asynctasktestmovies_v2.beans.Genre;
 import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view.DetailsMovieActivity;
 import com.androidavanzado.asynctasktestmovies_v2.movies.genres.view.GenresActivity;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.contract.MovieContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.presenter.MoviePresenter;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.presenter.MoviePresenter;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.contract.MovieContract;
 
 import java.util.ArrayList;
 
@@ -42,7 +39,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
 
         setContentView(R.layout.fragment_movie_list);
 
-        String[] sFilter = {"Género", "Mejor valorada"};
+        String[] sFilter = {"Selecciona","Género", "Mejor valorada"};
         presenter = new MoviePresenter(this);
         presenter.getMovieList();
         spinner = findViewById(R.id.genreSpinner);
@@ -56,9 +53,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
-                    case 0:
+                    case 1:
                         Intent intent = new Intent(MovieListActivity.this, GenresActivity.class);
                         startActivity(intent);
+
                         break;
                     case 2:
                         //TODO intent hacia la lista de películas mejor valoradas
@@ -80,10 +78,14 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new GridLayoutManager(this, 2);
+        onItemSelected();
+
+
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        onItemSelected();
+
+
         adapter = new MovieListAdapter(movies, this, new MovieListAdapter.OnCardClickListener() {
             @Override
             public void onCardClick(int id, int position) {
@@ -91,6 +93,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
                 //Obtenemos los datos de la película "clicada"
                 //String movieTitle = movies.get(position).getTitle();
                 idMovie = movies.get(position).getId();
+                intent.getIntExtra("MOVIE_ID", idMovie);
                 //String image = movies.get(position).getPoster_path();
                 //Pasamos los datos de la película "clicada" al activity de detalles
                 //intent.putExtra("DETAILS_MOVIE", position);

@@ -1,5 +1,6 @@
 package com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +11,8 @@ import com.androidavanzado.asynctasktestmovies_v2.R;
 import com.androidavanzado.asynctasktestmovies_v2.beans.DetailsMovie;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.contract.DetailsMovieContract;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.presenter.DetailsMoviePresenter;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.view.GenreListActivity;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view.MovieListActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -55,6 +58,9 @@ public class DetailsMovieActivity extends AppCompatActivity implements DetailsMo
 
     @Override
     public void onSuccess(ArrayList<DetailsMovie> details) {
+
+
+
         tvTitle = this.findViewById(R.id.tvGenre);
         ivPoster = this.findViewById(R.id.ivPoster);
         tvVote = this.findViewById(R.id.tvVote);
@@ -65,7 +71,7 @@ public class DetailsMovieActivity extends AppCompatActivity implements DetailsMo
         tvRuntime = this.findViewById(R.id.tvRuntime);
         tvOriginalTitle = this.findViewById(R.id.tvOriginalTitle);
         tvHomepage = this.findViewById(R.id.tvHomepage);
-        for( DetailsMovie detailsMovie : details){
+        for(DetailsMovie detailsMovie : details){
             tvTitle.setText(detailsMovie.getTitle());
             tvVote.setText(String.valueOf(detailsMovie.getVoteAverage()));
             Glide.with(this).load("https://image.tmdb.org/t/p/original" + detailsMovie.getPoster_path())

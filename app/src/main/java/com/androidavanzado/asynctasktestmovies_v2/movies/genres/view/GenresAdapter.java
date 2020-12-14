@@ -30,9 +30,9 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
         this.cardClickListener = cardClickListener;
     }
 
-    @NonNull
+
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.genre_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -40,7 +40,7 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GenresAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         holder.genre = genres.get(position);
         holder.bind(genres.get(position), cardClickListener);

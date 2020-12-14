@@ -17,7 +17,10 @@
         <activity
             android:name="com.androidavanzado.asynctasktestmovies_v2.movies.genres.view.GenresActivity"
             android:label="@string/Generos" />
-        <activity android:name=".movies.listMovies.view.MovieListActivity">
+        <activity
+            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.view.GenreListActivity"
+            android:label="@string/PeliculasPorGenero" />
+        <activity android:name=".movies.listMovies.popularList.view.MovieListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,14 +1,15 @@
 package com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.model;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.androidavanzado.asynctasktestmovies_v2.beans.DetailsMovie;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.contract.DetailsMovieContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view.MovieListActivity;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.view.GenreListActivity;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view.MovieListActivity;
 import com.androidavanzado.asynctasktestmovies_v2.utils.Post;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ public class DetailsMovieModel implements DetailsMovieContract.Model {
     @Override
     public void getDetailsWS(OnDetailsMovieListener onDetailsMovieListener) {
         this.onDetailsMovieListener = onDetailsMovieListener;
-        //TODO asynctask para recojer los datos ...
         DetailsMovieAsyncTask detailsMovieAsyncTask = new DetailsMovieAsyncTask();
         detailsMovieAsyncTask.execute();
     }
@@ -31,6 +31,7 @@ public class DetailsMovieModel implements DetailsMovieContract.Model {
 
         @Override
         protected Boolean doInBackground(String... strings) {
+
             String URL = "https://api.themoviedb.org/3/movie/" + idMovie + "?api_key=e61e68e7e4858d661a6479587ff29ec2&language=es-ES&append_to_response=1";
 
             Post post = new Post();

@@ -33,11 +33,11 @@ public class Genre {
                 /*Creamos un JSONObject que recoja los elementos
                 del JSONArray que pasamos por parámetro*/
                 JSONObject jsonObject = genreList.getJSONObject(i);
-                //Instanciamos un objeto Movie que se rellenará en cada iteración
+                //Instanciamos un objeto Genre que se rellenará en cada iteración
                 Genre genre = new Genre();
-
-
-                //Añadimos los objetos Movie a la lista creada en el método
+                genre.setId(jsonObject.getInt(ID));
+                genre.setName(jsonObject.getString(NAME));
+                //Añadimos los objetos Genre a la lista creada en el método
                 genreArrayList.add(genre);
             } catch (JSONException e) {
                 e.printStackTrace();

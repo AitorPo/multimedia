@@ -14,6 +14,9 @@
         <activity
             android:name="com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view.DetailsMovieActivity"
             android:label="@string/Detalles" />
+        <activity
+            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.genres.view.GenresActivity"
+            android:label="@string/Generos" />
         <activity android:name=".movies.listMovies.view.MovieListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

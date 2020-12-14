@@ -122,7 +122,7 @@ public class Post {
         JSONObject jsonObject = null;
         if (inputStream != null){
             try {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                 StringBuilder stringBuilder = new StringBuilder();
                 String line = null;
                 while((line = bufferedReader.readLine()) != null){

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -67,10 +66,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            tvTitle = view.findViewById(R.id.tvTitle);
+            tvTitle = view.findViewById(R.id.tvGenre);
             tvVote = view.findViewById(R.id.tvVote);
             ivPoster = view.findViewById(R.id.ivPoster);
-            cardView = view.findViewById(R.id.cardView);
+            cardView = view.findViewById(R.id.cardViewGenre);
         }
 
         public void bind(Movie movie, final OnCardClickListener cardClickListener){

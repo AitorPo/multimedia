@@ -1,8 +1,6 @@
 package com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,11 +10,7 @@ import com.androidavanzado.asynctasktestmovies_v2.R;
 import com.androidavanzado.asynctasktestmovies_v2.beans.DetailsMovie;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.contract.DetailsMovieContract;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.presenter.DetailsMoviePresenter;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.model.MovieModel;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view.MovieListActivity;
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -61,7 +55,7 @@ public class DetailsMovieActivity extends AppCompatActivity implements DetailsMo
 
     @Override
     public void onSuccess(ArrayList<DetailsMovie> details) {
-        tvTitle = this.findViewById(R.id.tvTitle);
+        tvTitle = this.findViewById(R.id.tvGenre);
         ivPoster = this.findViewById(R.id.ivPoster);
         tvVote = this.findViewById(R.id.tvVote);
         tvOverview = this.findViewById(R.id.tvOverview);

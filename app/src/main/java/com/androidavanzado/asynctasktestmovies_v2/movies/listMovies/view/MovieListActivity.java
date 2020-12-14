@@ -1,22 +1,30 @@
 package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.androidavanzado.asynctasktestmovies_v2.R;
+import com.androidavanzado.asynctasktestmovies_v2.beans.Genre;
 import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view.DetailsMovieActivity;
+import com.androidavanzado.asynctasktestmovies_v2.movies.genres.view.GenresActivity;
 import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.contract.MovieContract;
 import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.presenter.MoviePresenter;
 
 import java.util.ArrayList;
 
 public class MovieListActivity extends AppCompatActivity implements MovieContract.View{
+    Spinner spinner;
     private MoviePresenter presenter;
     private MovieListAdapter adapter;
     private RecyclerView recyclerView;
@@ -31,11 +39,40 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.fragment_movie_list);
 
+        String[] sFilter = {"Género", "Mejor valorada"};
         presenter = new MoviePresenter(this);
         presenter.getMovieList();
-    }
+        spinner = findViewById(R.id.genreSpinner);
+        spinner.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, sFilter));
+
+
+        }
+
+        public void onItemSelected(){
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        Intent intent = new Intent(MovieListActivity.this, GenresActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        //TODO intent hacia la lista de películas mejor valoradas
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }});}
+
+
+
 
     @Override
     public void onSuccess(ArrayList<Movie> movies) {
@@ -43,9 +80,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
 
+        onItemSelected();
         adapter = new MovieListAdapter(movies, this, new MovieListAdapter.OnCardClickListener() {
             @Override
             public void onCardClick(int id, int position) {

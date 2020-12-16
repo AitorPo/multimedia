@@ -23,11 +23,12 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGenre"
+        android:id="@+id/recyclerView"
+        android:name="com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view.MovieFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="55dp"
-        tools:listitem="@layout/genre_item">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/movie_item" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

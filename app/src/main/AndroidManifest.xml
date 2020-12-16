@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidavanzado.asynctasktestmovies_v2">
 
-<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,15 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view.DetailsMovieActivity"
+            android:name=".movies.listMovies.popularList.view.MovieListActivity"
+            android:label="@string/MovieList" />
+        <activity
+            android:name=".movies.detailsMovie.view.DetailsMovieActivity"
+            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity"
             android:label="@string/Detalles" />
         <activity
-            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.genres.view.GenresActivity"
+            android:name=".movies.genres.view.GenresActivity"
+            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity"
             android:label="@string/Generos" />
         <activity
-            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.view.GenreListActivity"
+            android:name=".movies.listMovies.genreList.view.GenreListActivity"
+            android:parentActivityName=".movies.genres.view.GenresActivity"
             android:label="@string/PeliculasPorGenero" />
-        <activity android:name=".movies.listMovies.popularList.view.MovieListActivity">
+        <activity
+            android:name=".movies.listMovies.topRated.view.TopRatedActivity"
+            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity"
+            android:label="@string/PeliculasMejorValoradas" />
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

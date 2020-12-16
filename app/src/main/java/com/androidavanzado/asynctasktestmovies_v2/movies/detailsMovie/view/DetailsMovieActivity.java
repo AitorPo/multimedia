@@ -2,17 +2,23 @@ package com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.androidavanzado.asynctasktestmovies_v2.R;
 import com.androidavanzado.asynctasktestmovies_v2.beans.DetailsMovie;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.contract.DetailsMovieContract;
 import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.presenter.DetailsMoviePresenter;
+import com.androidavanzado.asynctasktestmovies_v2.movies.genres.view.GenresActivity;
 import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.view.GenreListActivity;
 import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view.MovieListActivity;
+import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.topRated.view.TopRatedActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -35,6 +41,9 @@ public class DetailsMovieActivity extends AppCompatActivity implements DetailsMo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_item_details);
+        Toolbar toolbar = findViewById(R.id.tbDetails);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         presenter = new DetailsMoviePresenter(this);
         presenter.getDetails();
@@ -55,6 +64,27 @@ public class DetailsMovieActivity extends AppCompatActivity implements DetailsMo
                 .into(ivPoster);*/
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.itemGenre){
+            Intent intent = new Intent(DetailsMovieActivity.this, GenresActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.itemMostRated){
+            Intent intent = new Intent(DetailsMovieActivity.this, TopRatedActivity.class);
+            startActivity(intent);
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onSuccess(ArrayList<DetailsMovie> details) {

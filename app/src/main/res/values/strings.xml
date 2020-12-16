@@ -3,4 +3,8 @@
     <string name="Detalles">Detalles</string>
     <string name="Generos">Géneros</string>
     <string name="PeliculasPorGenero">GenreMovies</string>
+    <string name="MejorValoradas">Mejor valoradas</string>
+    <string name="MovieList">Lista de películas</string>
+    <string name="Genero">Género</string>
+    <string name="PeliculasMejorValoradas">Mejor valoradas</string>
 </resources>

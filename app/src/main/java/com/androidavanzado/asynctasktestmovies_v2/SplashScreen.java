@@ -23,6 +23,6 @@ public class SplashScreen extends AppCompatActivity {
                 Intent intent = new Intent(getBaseContext(), MovieListActivity.class);
                 startActivity(intent);
             }
-        }, 5000);
+        }, 2000);
         }
 }

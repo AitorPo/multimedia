@@ -11,15 +11,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.MaterialComponents.Light">
+        android:theme="@style/ToolbarColoredBackArrow">
 
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tbFilter"
+            android:id="@+id/tbGenre"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:titleTextColor="#F9F9F9"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+            app:popupTheme="@style/ToolbarColoredBackArrow" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -39,8 +39,6 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
         setContentView(R.layout.movie_list);
         Toolbar toolbar = findViewById(R.id.tbFilter);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
 
         presenter = new MoviePresenter(this);

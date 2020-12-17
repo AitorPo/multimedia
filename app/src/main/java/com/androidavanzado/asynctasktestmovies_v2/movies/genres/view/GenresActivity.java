@@ -34,7 +34,7 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.genres_list);
-        Toolbar toolbar = findViewById(R.id.tbFilter);
+        Toolbar toolbar = findViewById(R.id.tbGenre);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

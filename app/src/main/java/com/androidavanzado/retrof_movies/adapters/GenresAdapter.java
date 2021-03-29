@@ -1,19 +1,16 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.genres.view;
+package com.androidavanzado.retrof_movies.movies.genres.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.androidavanzado.asynctasktestmovies_v2.R;
-import com.androidavanzado.asynctasktestmovies_v2.beans.Genre;
+import com.androidavanzado.retrof_movies.R;
+import com.androidavanzado.retrof_movies.beans.Genre;
 
 
 import java.util.ArrayList;

@@ -20,9 +20,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="ToolbarColoredBackArrow">
         <item name="android:textColorSecondary">#f9f9f9</item>
     </style>
+
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cvVideoViewVideo"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true"
+    android:focusable="true">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/tvNameVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            />
+
+        <VideoView
+            android:id="@+id/vvVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameVideoView"
+            />
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

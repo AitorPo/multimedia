@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.androidavanzado.asynctasktestmovies_v2">
+    package="com.androidavanzado.retrof_movies">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -10,26 +13,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/AppTheme">
+
         <activity
             android:name=".movies.listMovies.popularList.view.MovieListActivity"
             android:label="@string/MovieList" />
         <activity
             android:name=".movies.detailsMovie.view.DetailsMovieActivity"
-            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity"
-            android:label="@string/Detalles" />
+            android:label=""
+            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity" />
         <activity
             android:name=".movies.genres.view.GenresActivity"
-            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity"
-            android:label="@string/Generos" />
+            android:label="@string/Generos"
+            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity" />
         <activity
             android:name=".movies.listMovies.genreList.view.GenreListActivity"
-            android:parentActivityName=".movies.genres.view.GenresActivity"
-            android:label="@string/PeliculasPorGenero" />
+            android:label="@string/PeliculasPorGenero"
+            android:parentActivityName=".movies.genres.view.GenresActivity" />
         <activity
             android:name=".movies.listMovies.topRated.view.TopRatedActivity"
-            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity"
-            android:label="@string/PeliculasMejorValoradas" />
+            android:label="@string/PeliculasMejorValoradas"
+            android:parentActivityName=".movies.listMovies.popularList.view.MovieListActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,8 +1,8 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.presenter;
+package com.androidavanzado.retrof_movies.movies.listMovies.genreList.presenter;
 
-import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.contract.GenreListContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.model.GenreListModel;
+import com.androidavanzado.retrof_movies.beans.Movie;
+import com.androidavanzado.retrof_movies.movies.listMovies.genreList.contract.GenreListContract;
+import com.androidavanzado.retrof_movies.movies.listMovies.genreList.model.GenreListModel;
 
 import java.util.ArrayList;
 
@@ -15,13 +15,25 @@ public class GenreListPresenter implements GenreListContract.Presenter {
         genreListModel = new GenreListModel();
     }
 
+
     @Override
     public void getGenreList() {
+        if (view != null){
+            view.showProgress();
+        }
         genreListModel.getMoviesByGenreWS(new GenreListContract.Model.OnGenreListListener() {
             @Override
-            public void onResolve(ArrayList<Movie> genreMovies) { view.onSuccess(genreMovies); }
+            public void onResolve(ArrayList<Movie> genreMovies) {
+                view.onSuccess(genreMovies);
+                if (genreMovies != null){
+                    view.hideProgress();
+                }
+            }
+
             @Override
-            public void onReject(String message) { view.onFailure("Problemas al traer los datos desde el Presenter"); }
+            public void onReject(Throwable throwable) {
+                view.onFailure(throwable);
+            }
         });
     }
 }

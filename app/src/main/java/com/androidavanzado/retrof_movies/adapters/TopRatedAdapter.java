@@ -1,4 +1,4 @@
-package com.androidavanzado.retrof_movies.movies.listMovies.topRated.view;
+package com.androidavanzado.retrof_movies.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -67,14 +67,14 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHo
 
         public ViewHolder(View view) {
             super(view);
-            tvTitle = view.findViewById(R.id.tvGenre);
-            tvVote = view.findViewById(R.id.tvVote);
+            tvTitle = view.findViewById(R.id.tvTitle);
+            tvVote = view.findViewById(R.id.tvVoteAverage);
             ivPoster = view.findViewById(R.id.ivPoster);
-            cardView = view.findViewById(R.id.cardViewGenre);
+            cardView = view.findViewById(R.id.cardView);
         }
 
-        public void bind(Movie movie, final OnItemClickListener cardClickListener){
-            cardView.setOnClickListener(v -> cardClickListener.onCardClick(movie.getId(), getAdapterPosition()));
+        public void bind(Movie movie, final OnItemClickListener onItemClickListener){
+            cardView.setOnClickListener(v -> onItemClickListener.onCardClick(movie.getId(), getAdapterPosition()));
         }
     }
     public interface OnItemClickListener {

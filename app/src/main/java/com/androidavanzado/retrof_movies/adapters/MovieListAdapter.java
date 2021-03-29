@@ -1,4 +1,4 @@
-package com.androidavanzado.retrof_movies.movies.listMovies.popularList.view;
+package com.androidavanzado.retrof_movies.adapters;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.androidavanzado.retrof_movies.R;
 import com.androidavanzado.retrof_movies.beans.Movie;
+import com.androidavanzado.retrof_movies.utils.OnMovieItemClickListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -29,19 +30,25 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     private ArrayList<Movie> movies;
     Context context;
-    private OnItemClickListener cardClickListener;
+    private ArrayList<Movie> originalList;
+    private MovieListAdapter.OnItemClickListener onItemClickListener;
 
-    public MovieListAdapter(ArrayList<Movie> movies, Context context, OnItemClickListener cardClickListener) {
+    public MovieListAdapter(ArrayList<Movie> movies, Context context, MovieListAdapter.OnItemClickListener onItemClickListener) {
         this.movies = movies;
         this.context = context;
-        this.cardClickListener = cardClickListener;
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public void appendMovies(ArrayList<Movie> moviesToAppend){
+        movies.addAll(moviesToAppend);
+        notifyDataSetChanged();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movie_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, onItemClickListener);
         return viewHolder;
     }
 
@@ -49,7 +56,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         holder.movie = movies.get(position);
-        holder.bind(movies.get(position),cardClickListener);
+        //holder.bind(movies.get(position), onItemClickListener);
 
         holder.tvTitle.setText(holder.movie.getTitle());
         //Obtenemos el string del double que devuelve getVoteAverage()
@@ -77,29 +84,34 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         return movies.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final View mView;
         public final TextView tvTitle;
         public final TextView tvVote;
         public final ImageView ivPoster;
         public final CardView cardView;
         public Movie movie;
+        public final MovieListAdapter.OnItemClickListener onItemClickListener;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, MovieListAdapter.OnItemClickListener onItemClickListener) {
             super(view);
             mView = view;
-            tvTitle = view.findViewById(R.id.tvGenre);
-            tvVote = view.findViewById(R.id.tvVote);
+            tvTitle = view.findViewById(R.id.tvTitle);
+            tvVote = view.findViewById(R.id.tvVoteAverage);
             ivPoster = view.findViewById(R.id.ivPoster);
-            cardView = view.findViewById(R.id.cardViewGenre);
+            cardView = view.findViewById(R.id.cardView);
+            this.onItemClickListener = onItemClickListener;
+
+            view.setOnClickListener(this);
         }
 
-        public void bind(Movie movie, final OnItemClickListener cardClickListener){
-            cardView.setOnClickListener(v -> cardClickListener.onCardClick(movie.getId(), getAdapterPosition()));
-        }
 
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onCardClick(getAdapterPosition());
+        }
     }
     public interface OnItemClickListener {
-        void onCardClick(int id, int position);
+        void onCardClick(int position);
     }
 }

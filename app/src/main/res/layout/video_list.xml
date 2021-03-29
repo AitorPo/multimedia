@@ -12,5 +12,7 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
         tools:listitem="@layout/video_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

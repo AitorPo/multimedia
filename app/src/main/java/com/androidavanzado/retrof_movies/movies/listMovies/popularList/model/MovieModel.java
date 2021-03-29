@@ -1,58 +1,49 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.model;
+package com.androidavanzado.retrof_movies.movies.listMovies.popularList.model;
 
-import android.os.AsyncTask;
+import android.util.Log;
 
-import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.contract.MovieContract;
-import com.androidavanzado.asynctasktestmovies_v2.utils.Post;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.androidavanzado.retrof_movies.beans.Movie;
+import com.androidavanzado.retrof_movies.beans.response.MovieListResponse;
+import com.androidavanzado.retrof_movies.movies.listMovies.popularList.contract.MovieContract;
+import com.androidavanzado.retrof_movies.service.ApiClient;
+import com.androidavanzado.retrof_movies.service.ApiInterface;
 
 import java.util.ArrayList;
 
-public class MovieModel implements MovieContract.Model {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    private static final String URL = "https://api.themoviedb.org/3/movie/popular?api_key=d9c4177bb1cc819d43088d25fbe2474c&language=es-ES";
-    private ArrayList<Movie> movieArrayList;
-    OnListMovieListener onListMovieListener;
+import static com.androidavanzado.retrof_movies.utils.Constants.API_KEY;
+import static com.androidavanzado.retrof_movies.utils.Constants.LANGUAGE;
+
+public class MovieModel implements MovieContract.Model {
+    private final String TAG = "MovieModel";
+
 
     @Override
-    public void getMoviesWS(OnListMovieListener onListMovieListener) {
-        this.onListMovieListener = onListMovieListener;
-        MoviesAsyncTask asyncTask = new MoviesAsyncTask();
-        asyncTask.execute();
-    }
+    public void getMoviesWS(final OnListMovieListener onListMovieListener) {
+        ApiInterface apiInterface = ApiClient.buildClient()
+                .create(ApiInterface.class);
 
-    //Parte del AsyncTask que se comunicará con el WS/API
-    class MoviesAsyncTask extends AsyncTask<String, Integer, Boolean>{
+        Call<MovieListResponse> call = apiInterface.getPopularMovies(API_KEY, LANGUAGE);
+        call.enqueue(new Callback<MovieListResponse>() {
+            @Override
+            public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
+                int totalPages= response.body().getTotalPages();
 
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            Post post = new Post();
-            JSONObject objectMovies = post.getServerDataGetObject(URL);
-            try {
-                JSONArray movieArray = objectMovies.getJSONArray("results");
-                movieArrayList = Movie.getArrayListFromJSON(movieArray);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                ArrayList<Movie> movies = response.body().getResults();
+                Log.d(TAG, "Lista cargada");
+                onListMovieListener.onResolve(movies);
             }
-            return true;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean res) {
-            if (res) {
-                if (movieArrayList != null && movieArrayList.size() > 0){
-                    onListMovieListener.onResolve(movieArrayList);
-                }
-            } else {
-                onListMovieListener.onReject("Error al traer datos del WS/API");
+            @Override
+            public void onFailure(Call<MovieListResponse> call, Throwable t) {
+                Log.e(TAG, t.toString());
+                onListMovieListener.onReject(t);
             }
-        }
+        });
     }
-
 
 
 }

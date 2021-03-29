@@ -1,32 +1,40 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.genres.view;
+package com.androidavanzado.retrof_movies.movies.genres.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.androidavanzado.asynctasktestmovies_v2.R;
-import com.androidavanzado.asynctasktestmovies_v2.beans.Genre;
-import com.androidavanzado.asynctasktestmovies_v2.movies.genres.contract.GenresContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.genres.presenter.GenresPresenter;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.view.GenreListActivity;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view.MovieListActivity;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.topRated.view.TopRatedActivity;
+import com.androidavanzado.retrof_movies.R;
+import com.androidavanzado.retrof_movies.adapters.GenresAdapter;
+import com.androidavanzado.retrof_movies.beans.Genre;
+import com.androidavanzado.retrof_movies.movies.genres.contract.GenresContract;
+import com.androidavanzado.retrof_movies.movies.genres.presenter.GenresPresenter;
+import com.androidavanzado.retrof_movies.movies.listMovies.genreList.view.GenreListActivity;
+import com.androidavanzado.retrof_movies.movies.listMovies.topRated.view.TopRatedActivity;
 
 
 import java.util.ArrayList;
 
 public class GenresActivity extends AppCompatActivity implements GenresContract.View{
+    private static final String TAG = "GenresActivity";
     private RecyclerView recyclerViewGenre;
     private RecyclerView.LayoutManager layoutManagerGenre;
+    private ProgressBar pbProgressGenre;
     private GenresPresenter presenter;
     private GenresAdapter adapter;
+    private SwipeRefreshLayout refreshLayout;
 
     public static int idGenre;
 
@@ -38,9 +46,23 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initComponents();
+
         presenter = new GenresPresenter(this);
         presenter.getGenres();
     }
+
+    private void initComponents(){
+        recyclerViewGenre = findViewById(R.id.recyclerViewGenre);
+        recyclerViewGenre.setHasFixedSize(true);
+        refreshLayout = findViewById(R.id.refreshGenreList);
+
+        pbProgressGenre = findViewById(R.id.pbProgressGenre);
+
+        layoutManagerGenre = new GridLayoutManager(this, 2);
+        recyclerViewGenre.setLayoutManager(layoutManagerGenre);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -61,14 +83,17 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
     }
 
     @Override
-    public void onSuccess(ArrayList<Genre> genres) {
-        recyclerViewGenre = findViewById(R.id.recyclerViewGenre);
-        recyclerViewGenre.setHasFixedSize(true);
+    public void showProgress() {
+        pbProgressGenre.setVisibility(View.VISIBLE);
+    }
 
-        layoutManagerGenre = new GridLayoutManager(this, 2);
-        recyclerViewGenre.setLayoutManager(layoutManagerGenre);
+    @Override
+    public void hideProgress() {
+        pbProgressGenre.setVisibility(View.GONE);
+    }
 
-       adapter = new GenresAdapter(genres, this, new GenresAdapter.OnCardClickListener() {
+    private void setDataInRecyclerView(ArrayList<Genre> genres){
+        adapter = new GenresAdapter(genres, this, new GenresAdapter.OnCardClickListener() {
             @Override
             public void onCardClick(int id, int position) {
                 Intent intent = new Intent(GenresActivity.this, GenreListActivity.class);
@@ -76,12 +101,23 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
                 startActivity(intent);
             }
         });
-       recyclerViewGenre.setAdapter(adapter);
+        recyclerViewGenre.setAdapter(adapter);
 
+        refreshLayout.setOnRefreshListener(() -> {
+            setDataInRecyclerView(genres);
+            Log.d(TAG, "Lista de géneros refrescada");
+            refreshLayout.setRefreshing(false);
+        });
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onSuccess(ArrayList<Genre> genres) {
+        setDataInRecyclerView(genres);
+    }
 
+    @Override
+    public void onFailure(Throwable throwable) {
+        Log.e(TAG, throwable.getMessage());
+        Toast.makeText(this, "Error al recibir los datos de la API", Toast.LENGTH_LONG).show();
     }
 }

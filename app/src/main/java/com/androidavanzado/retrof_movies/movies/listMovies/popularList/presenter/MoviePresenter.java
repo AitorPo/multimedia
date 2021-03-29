@@ -1,35 +1,35 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.presenter;
+package com.androidavanzado.retrof_movies.movies.listMovies.popularList.presenter;
 
-import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.contract.MovieContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.model.MovieModel;
+import android.content.Context;
+
+import com.androidavanzado.retrof_movies.beans.Movie;
+import com.androidavanzado.retrof_movies.movies.listMovies.popularList.contract.MovieContract;
+import com.androidavanzado.retrof_movies.movies.listMovies.popularList.model.MovieModel;
 
 import java.util.ArrayList;
 
-public class MoviePresenter implements MovieContract.Presenter {
+public class MoviePresenter implements MovieContract.Presenter{
     private MovieModel movieModel;
     private MovieContract.View view;
 
-
     public MoviePresenter(MovieContract.View view){
         this.view = view;
-        this.movieModel = new MovieModel();
+        movieModel = new MovieModel();
     }
 
     @Override
-    public void getMovieList() {
+    public void getMovieList(Context context) {
+
         movieModel.getMoviesWS(new MovieContract.Model.OnListMovieListener() {
             @Override
             public void onResolve(ArrayList<Movie> movies) {
                 view.onSuccess(movies);
             }
+
             @Override
-            public void onReject(String message) {
-                view.onFailure("Problemas al traer los datos desde el Presenter");
+            public void onReject(Throwable throwable) {
+                view.onFailure(throwable);
             }
         });
-
     }
-
-
 }

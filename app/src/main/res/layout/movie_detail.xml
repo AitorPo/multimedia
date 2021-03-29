@@ -22,6 +22,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <RelativeLayout
+                    android:id="@+id/rlCollapsingTb"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/white">
@@ -40,17 +41,36 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/bg_test" />
 
-                    <ImageView
-                        android:id="@+id/ivPoster"
-                        android:layout_width="125dp"
-                        android:layout_height="180dp"
-                        android:scaleType="centerCrop"
-                        android:elevation="1dp"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvIvPoster"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="140dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        card_view:srcCompat="@drawable/poster_test" />
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="6dp"
+                        android:focusable="true"
+                        card_view:ignore="ExtraText">
+                        <ImageView
+                            android:id="@+id/ivPoster"
+                            android:layout_width="125dp"
+                            android:layout_height="180dp"
+                            android:scaleType="centerCrop"
 
+
+
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            card_view:srcCompat="@drawable/poster_test" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/cvIvPoster"
+                        android:layout_below="@id/ivPosterPath"
+                        >
                     <TextView
                         android:id="@+id/tvGenre"
                         android:layout_width="match_parent"
@@ -59,8 +79,7 @@
                         android:ellipsize="end"
                         android:padding="5dp"
                         android:textSize="14dp"
-                        android:layout_toRightOf="@id/ivPoster"
-                        android:layout_below="@id/ivPosterPath"
+
                         android:typeface="normal"/>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -68,22 +87,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_below="@id/ivPoster"
+                        android:layout_below="@id/tvGenre"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        >
-                    </androidx.recyclerview.widget.RecyclerView>
+                        />
+                    </RelativeLayout>
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="195dp"
-                        android:orientation="horizontal"
-                        android:background="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </LinearLayout>
 
                     <ProgressBar
                         android:id="@+id/pbProgressDetail"

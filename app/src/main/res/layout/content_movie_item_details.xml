@@ -1,6 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    card_view:context=".movies.detailsMovie.view.DetailsMovieActivity"
+    card_view:showIn="@layout/movie_detail">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <!-- Card for Movie rating -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp"
+            android:focusable="true"
+            card_view:ignore="ExtraText">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_rating_and_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="Release Date"
+                        android:drawableTop="@drawable/ic_calendar"/>
+
+
+                    <TextView
+                        android:id="@+id/tvVoteAverage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="Rating"
+                        android:drawableTop="@drawable/ic_black_star_rating"/>
+
+
+                    <TextView
+                        android:id="@+id/tvOriginLang"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="Original language"
+                        app:drawableTopCompat="@drawable/ic_language_world" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_rating_and_date_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_below="@id/ll_rating_and_date">
+
+                    <TextView
+                        android:id="@+id/tvReleaseDateText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="Estreno"
+                        android:textStyle="bold"
+                        android:textSize="10dp"
+                        android:textColor="#A18F8F"/>
+
+
+                    <TextView
+                        android:id="@+id/tvVoteCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="Vote count"
+                        android:textStyle="bold"
+                        android:textSize="10dp"
+                        android:textColor="#A18F8F"/>
+
+                    <TextView
+                        android:id="@+id/tvOriginLangText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_horizontal"
+                        android:text="Idioma original"
+                        android:textColor="#A18F8F"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card for Movie overview -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp"
+            android:focusable="true"
+            card_view:ignore="ExtraText">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/tvDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="12"
+
+                    android:text="Sinopsis"
+                    android:textStyle="bold"
+                    android:typeface="sans"
+                    />
+
+                <TextView
+                    android:id="@+id/tvOverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvDescripcion"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp"
+
+                    android:text="Overview"
+                    android:typeface="sans" />
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Cast cardview -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvProd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp"
+            android:focusable="true"
+            card_view:ignore="ExtraText">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tvReparto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="12"
+
+                    android:text="Reparto"
+                    android:textStyle="bold"
+                    android:typeface="sans" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvReparto">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvCast"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <ProgressBar
+                        android:id="@+id/pbCastProgress"
+                        style="@style/Base.Widget.AppCompat.ProgressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Trailer cardview -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvTrailer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp"
+            android:focusable="true"
+            card_view:ignore="ExtraText">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tvTrailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="12"
+
+                    android:text="Trailers"
+                    android:textStyle="bold"
+                    android:typeface="sans" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvTrailer">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTrailerDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        />
+
+                    <ProgressBar
+                        android:id="@+id/pbVideoProgress"
+                        style="@style/Base.Widget.AppCompat.ProgressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

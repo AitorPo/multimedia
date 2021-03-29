@@ -2,4 +2,10 @@
 <resources>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+
+    <dimen name="padding_general">16dp</dimen>
+    <dimen name="normal_separation">8dp</dimen>
+    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
 </resources>

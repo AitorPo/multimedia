@@ -1,10 +1,7 @@
-package com.androidavanzado.asynctasktestmovies_v2.beans;
+package com.androidavanzado.retrof_movies.beans;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Genre {
     private static final String ID = "id";
@@ -12,7 +9,11 @@ public class Genre {
 
     public Genre(){}
 
+    @SerializedName("id")
+    @Expose
     private int id;
+    @SerializedName("name")
+    @Expose
     private String name;
 
     public int getId() { return id; }
@@ -20,7 +21,7 @@ public class Genre {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public static ArrayList<Genre> getArrayListFromJSON(JSONArray genreList){
+    /*public static ArrayList<Genre> getArrayListFromJSON(JSONArray genreList){
         ArrayList<Genre> genreArrayList = null;
         //Comprobamos sobre el JSONArray que pasamos por parámetro
         if(genreList != null && genreList.length() > 0){
@@ -30,8 +31,8 @@ public class Genre {
         //Recorremos el JSONArray que recibimos por parámetro
         for (int i = 0; i < genreList.length(); i ++){
             try {
-                /*Creamos un JSONObject que recoja los elementos
-                del JSONArray que pasamos por parámetro*/
+                //Creamos un JSONObject que recoja los elementos
+                //del JSONArray que pasamos por parámetro
                 JSONObject jsonObject = genreList.getJSONObject(i);
                 //Instanciamos un objeto Genre que se rellenará en cada iteración
                 Genre genre = new Genre();
@@ -45,5 +46,6 @@ public class Genre {
         }
         //Devolvemos la lista propia que ha guardado los datos del JSONArray
         return genreArrayList;
-    }
+    }*/
+
 }

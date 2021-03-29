@@ -1,8 +1,8 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.genres.presenter;
+package com.androidavanzado.retrof_movies.movies.genres.presenter;
 
-import com.androidavanzado.asynctasktestmovies_v2.beans.Genre;
-import com.androidavanzado.asynctasktestmovies_v2.movies.genres.contract.GenresContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.genres.model.GenresModel;
+import com.androidavanzado.retrof_movies.beans.Genre;
+import com.androidavanzado.retrof_movies.movies.genres.contract.GenresContract;
+import com.androidavanzado.retrof_movies.movies.genres.model.GenresModel;
 
 import java.util.ArrayList;
 
@@ -15,13 +15,25 @@ public class GenresPresenter implements GenresContract.Presenter {
         genresModel = new GenresModel();
     }
 
+
     @Override
     public void getGenres() {
+        if (view != null){
+            view.showProgress();
+        }
         genresModel.getDetailsWS(new GenresContract.Model.OnGenresMovieListener() {
             @Override
-            public void onResolve(ArrayList<Genre> genres) { view.onSuccess(genres); }
+            public void onResolve(ArrayList<Genre> genres) {
+                view.onSuccess(genres);
+                if (genres != null){
+                    view.hideProgress();
+                }
+            }
+
             @Override
-            public void onReject(String message) { view.onFailure("Problemas al traer los datos delde el Presenter"); }
+            public void onReject(Throwable throwable) {
+                view.onFailure(throwable);
+            }
         });
     }
 }

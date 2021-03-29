@@ -1,132 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/refreshDetail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:card_view="http://schemas.android.com/tools"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/toolbarLayout"
-                android:layout_width="match_parent"
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:id="@+id/rlCollapsingTb"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/ivPosterPath"
+                    android:layout_width="wrap_content"
+                    android:layout_height="245dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+
+                    android:scaleType="centerCrop"
+                    android:elevation="1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/bg_test" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvIvPoster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="140dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="6dp"
+
+                    app:cardElevation="6dp"
+                    android:focusable="true"
+                    card_view:ignore="ExtraText">
+                    <ImageView
+                        android:id="@+id/ivPoster"
+                        android:layout_width="125dp"
+                        android:layout_height="180dp"
+                        android:scaleType="centerCrop"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        card_view:srcCompat="@drawable/poster_test" />
+                </com.google.android.material.card.MaterialCardView>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/ivPosterPath"
-                        android:layout_width="wrap_content"
-                        android:layout_height="245dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginEnd="0dp"
-                        android:elevation="10dp"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/bg_test" />
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/cvIvPoster"
+                    android:layout_below="@id/ivPosterPath"
+                    >
+                    <TextView
+                        android:id="@+id/tvGenre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="170dp"
-                        android:orientation="horizontal"
-                        android:background="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:elevation="20dp"
-                            app:cardCornerRadius="10dp">
-
-                            <ImageView
-                                android:id="@+id/ivPoster"
-                                android:layout_width="125dp"
-                                android:layout_height="180dp"
-                                android:scaleType="centerCrop"
-                
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                card_view:srcCompat="@tools:sample/avatars" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                >
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/rvGenreDetail"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_below="@id/tvGenre"
-                                    >
-                                </androidx.recyclerview.widget.RecyclerView>
-
-                                <TextView
-                                    android:id="@+id/tvGenre"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:ellipsize="end"
-                                    android:padding="5dp"
-                                    android:textSize="14dp"
-                                    android:typeface="normal"/>
-
-                            </RelativeLayout>
-                    </LinearLayout>
-
-                    <ProgressBar
-                        android:id="@+id/pbProgressDetail"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
                         android:layout_gravity="center"
-                        android:layout_marginStart="175dp"
-                        android:layout_marginTop="112dp"
-                        android:layout_weight="1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:ellipsize="end"
+                        android:padding="5dp"
+                        android:textSize="14dp"
 
+                        android:typeface="normal"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvGenreDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@id/tvGenre"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        />
                 </RelativeLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tbDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:titleTextColor="#F9F9F9">
 
-                </androidx.appcompat.widget.Toolbar>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <ProgressBar
+                    android:id="@+id/pbProgressDetail"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="175dp"
+                    android:layout_marginTop="112dp"
+                    android:layout_weight="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+            </RelativeLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
-        <include layout="@layout/content_movie_item_details"></include>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tbDetails"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleTextColor="#F9F9F9">
 
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/content_movie_item_details"></include>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

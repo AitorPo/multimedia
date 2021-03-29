@@ -1,44 +1,85 @@
-package com.androidavanzado.asynctasktestmovies_v2.beans;
+package com.androidavanzado.retrof_movies.beans;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.androidavanzado.retrof_movies.beans.response.CreditResponse;
+import com.androidavanzado.retrof_movies.beans.response.VideoListResponse;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class DetailsMovie {
-    private static final String ID = "id";
-    private static final String ORIGINAL_TITLE = "original_title";
-    private static final String TITLE = "title";
-    private static final String OVERVIEW = "overview";
-    private static final String POSTER_PATH = "poster_path";
-    private static final String VOTE_AVERAGE = "vote_average";
-    private static final String VOTE_COUNT = "vote_count";
-    private static final String ORIGINAL_LANGUAGE = "original_language";
-    private static final String POPULARITY = "popularity";
-    private static final String RUNTIME = "runtime";
-    private static final String HOMEPAGE = "homepage";
 
-
-    public DetailsMovie(String title){
-        this.title = title;
-    }
-
-    public DetailsMovie(){}
-
+    @SerializedName("id")
+    @Expose
     private int id;
+    @SerializedName("title")
+    @Expose
     private String title;
+    @SerializedName("original_title")
+    @Expose
     private String original_title;
+    @SerializedName("overview")
+    @Expose
     private String overview;
+    @SerializedName("poster_path")
+    @Expose
     private String poster_path;
+    @SerializedName("vote_average")
+    @Expose
     private double vote_average;
+    @SerializedName("vote_count")
+    @Expose
     private int vote_count;
+    @SerializedName("original_language")
+    @Expose
     private String original_language;
-    private int popularity;
+    @SerializedName("popularity")
+    @Expose
+    private Double popularity;
+    @SerializedName("runtime")
+    @Expose
     private int runtime;
+    @SerializedName("homepage")
+    @Expose
     private String homepage;
+    @SerializedName("credits")
+    @Expose
+    private CreditResponse creditResponse;
 
+    @SerializedName("genres")
+    @Expose
+    private ArrayList<Genre> genres;
+    @SerializedName("release_date")
+    @Expose
+    private String releaseDate;
+
+
+
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
+    }
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+    public double getVote_average() {
+        return vote_average;
+    }
+    public void setVote_average(double vote_average) {
+        this.vote_average = vote_average;
+    }
+    public CreditResponse getCreditResponse() {
+        return creditResponse;
+    }
+    public void setCreditResponse(CreditResponse creditResponse) {
+        this.creditResponse = creditResponse;
+    }
     public int getId() {
         return id;
     }
@@ -71,47 +112,10 @@ public class DetailsMovie {
     public void setVote_count(int vote_count) { this.vote_count = vote_count; }
     public String getOriginal_language() { return original_language; }
     public void setOriginal_language(String original_language) { this.original_language = original_language; }
-    public int getPopularity() { return popularity; }
-    public void setPopularity(int popularity) { this.popularity = popularity; }
+    public Double getPopularity() { return popularity; }
+    public void setPopularity(Double popularity) { this.popularity = popularity; }
     public int getRuntime() { return runtime; }
     public void setRuntime(int runtime) { this.runtime = runtime; }
     public String getHomepage() { return homepage; }
     public void setHomepage(String homepage) { this.homepage = homepage; }
-
-    public static ArrayList<DetailsMovie> getArrayListFromJSON(JSONArray movieList){
-        ArrayList<DetailsMovie> detailsMovieArrayList = null;
-        //Comprobamos sobre el JSONArray que pasamos por parámetro
-        if(movieList != null && movieList.length() > 0){
-            //inicializamos la lista propia creada dentro del método
-            detailsMovieArrayList = new ArrayList<DetailsMovie>();
-        }
-        //Recorremos el JSONArray que recibimos por parámetro
-        for (int i = 0; i < movieList.length(); i ++){
-            try {
-                /*Creamos un JSONObject que recoja los elementos
-                del JSONArray que pasamos por parámetro*/
-                JSONObject jsonObject = movieList.getJSONObject(i);
-                //Instanciamos un objeto Movie que se rellenará en cada iteración
-                DetailsMovie detailsMovie = new DetailsMovie();
-
-                detailsMovie.setId(jsonObject.getInt(ID));
-                detailsMovie.setTitle(jsonObject.getString(TITLE));
-                detailsMovie.setOriginal_title(jsonObject.getString(ORIGINAL_TITLE));
-                detailsMovie.setOverview(jsonObject.getString(OVERVIEW));
-                detailsMovie.setPoster_path(jsonObject.getString(POSTER_PATH));
-                detailsMovie.setVoteAverage(jsonObject.getDouble(VOTE_AVERAGE));
-                detailsMovie.setVote_count(jsonObject.getInt(VOTE_COUNT));
-                detailsMovie.setOriginal_language(jsonObject.getString(ORIGINAL_LANGUAGE));
-                detailsMovie.setPopularity(jsonObject.getInt(POPULARITY));
-                detailsMovie.setRuntime(jsonObject.getInt(RUNTIME));
-                detailsMovie.setHomepage(jsonObject.getString(HOMEPAGE));
-                //Añadimos los objetos Movie a la lista creada en el método
-                detailsMovieArrayList.add(detailsMovie);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        //Devolvemos la lista propia que ha guardado los datos del JSONArray
-        return detailsMovieArrayList;
-    }
 }

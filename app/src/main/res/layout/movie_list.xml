@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ToolbarColoredBackArrow">
+        android:theme="@style/ThemeOverlay.AppCompat.Light">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -20,16 +20,54 @@
             android:layout_height="match_parent"
             app:titleTextColor="#F9F9F9"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ToolbarColoredBackArrow" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:name="com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view.MovieFragment"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshPopularList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/movie_item" />
+        android:layout_marginTop="55dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:name="com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.view.MovieFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            tools:listitem="@layout/movie_item" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/llMovieListError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvMovieListError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Error al obtener los datos" />
+
+        <Button
+            android:id="@+id/btnMovieListRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/normal_separation"
+            android:text="Reintentar" />
+
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/pbProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

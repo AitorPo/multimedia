@@ -1,15 +1,15 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.topRated.contract;
+package com.androidavanzado.retrof_movies.movies.listMovies.topRated.contract;
 
-import com.androidavanzado.asynctasktestmovies_v2.beans.Movie;
+import com.androidavanzado.retrof_movies.beans.Movie;
 
 import java.util.ArrayList;
 
 public interface TopRatedContract {
     interface Model{
-        void getTopRatedMoviesWS(OnTopRatedListener onTopRatedListener);
+        void getTopRatedMoviesWS(final OnTopRatedListener onTopRatedListener);
         interface OnTopRatedListener{
             void onResolve(ArrayList<Movie> topRatedMovies);
-            void onReject(String message);
+            void onReject(Throwable throwable);
         }
     }
 
@@ -18,7 +18,11 @@ public interface TopRatedContract {
     }
 
     interface View{
+        void showEmptyView();
+        void hideEmptyView();
+        void showProgress();
+        void hideProgress();
         void onSuccess(ArrayList<Movie> topRatedMovies);
-        void onFailure(String message);
+        void onFailure(Throwable throwable);
     }
 }

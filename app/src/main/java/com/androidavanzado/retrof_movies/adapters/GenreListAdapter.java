@@ -1,4 +1,4 @@
-package com.androidavanzado.retrof_movies.movies.listMovies.genreList.view;
+package com.androidavanzado.retrof_movies.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -85,10 +85,10 @@ public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.View
         public ViewHolder(View view){
             super(view);
             mView = view;
-            tvTitle = view.findViewById(R.id.tvGenre);
-            tvVote = view.findViewById(R.id.tvVote);
+            tvTitle = view.findViewById(R.id.tvTitle);
+            tvVote = view.findViewById(R.id.tvVoteAverage);
             ivPoster = view.findViewById(R.id.ivPoster);
-            cardView = view.findViewById(R.id.cardViewGenre);
+            cardView = view.findViewById(R.id.cardView);
         }
         public void bind(Movie movie, final GenreListAdapter.OnCardClickListener cardClickListener){
             cardView.setOnClickListener(v -> cardClickListener.onCardClick(movie.getId(), getAdapterPosition()));

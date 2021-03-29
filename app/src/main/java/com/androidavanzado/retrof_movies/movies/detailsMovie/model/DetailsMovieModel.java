@@ -1,57 +1,87 @@
-package com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.model;
+package com.androidavanzado.retrof_movies.movies.detailsMovie.model;
 
-import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
-import com.androidavanzado.asynctasktestmovies_v2.beans.DetailsMovie;
-import com.androidavanzado.asynctasktestmovies_v2.movies.detailsMovie.contract.DetailsMovieContract;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.genreList.view.GenreListActivity;
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view.MovieListActivity;
-import com.androidavanzado.asynctasktestmovies_v2.utils.Post;
+import com.androidavanzado.retrof_movies.beans.DetailsMovie;
+import com.androidavanzado.retrof_movies.beans.Video;
+import com.androidavanzado.retrof_movies.beans.response.VideoListResponse;
+import com.androidavanzado.retrof_movies.movies.detailsMovie.contract.DetailsMovieContract;
+import com.androidavanzado.retrof_movies.movies.listMovies.popularList.view.MovieListActivity;
+import com.androidavanzado.retrof_movies.service.ApiClient;
+import com.androidavanzado.retrof_movies.service.ApiInterface;
+import com.androidavanzado.retrof_movies.utils.Post;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.androidavanzado.retrof_movies.utils.Constants.API_KEY;
+import static com.androidavanzado.retrof_movies.utils.Constants.APPEND_TO_RESPONSE_CAST;
+import static com.androidavanzado.retrof_movies.utils.Constants.APPEND_TO_RESPONSE_VIDEOS;
+import static com.androidavanzado.retrof_movies.utils.Constants.LANGUAGE;
+import static com.androidavanzado.retrof_movies.utils.Constants.LANGUAGE_EN;
 
 public class DetailsMovieModel implements DetailsMovieContract.Model {
+    private final String TAG = "DetailsMovieModel";
+    private String[] appends;
+    //int idMovie = MovieListActivity.idMovie;
 
-    int idMovie = MovieListActivity.idMovie;
-    //private static String URL = "https://api.themoviedb.org/3/movie/" + idMovie + "?api_key=e61e68e7e4858d661a6479587ff29ec2&language=en-US&append_to_response=1";
-    private ArrayList<DetailsMovie> detailsMoviesArrayList;
-    OnDetailsMovieListener onDetailsMovieListener;
     @Override
-    public void getDetailsWS(OnDetailsMovieListener onDetailsMovieListener) {
-        this.onDetailsMovieListener = onDetailsMovieListener;
-        DetailsMovieAsyncTask detailsMovieAsyncTask = new DetailsMovieAsyncTask();
-        detailsMovieAsyncTask.execute();
+    public void getDetailsWS(final OnDetailsMovieListener onDetailsMovieListener, int movieId) {
+        ApiInterface apiInterface = ApiClient.buildClient()
+                .create(ApiInterface.class);
+        //appends = new String[]{APPEND_TO_RESPONSE_CAST, APPEND_TO_RESPONSE_VIDEOS};
+
+
+        Call<DetailsMovie> call = apiInterface.getMovieDetail(movieId, API_KEY, LANGUAGE, APPEND_TO_RESPONSE_CAST);
+        call.enqueue(new Callback<DetailsMovie>() {
+            @Override
+            public void onResponse(Call<DetailsMovie> call, Response<DetailsMovie> response) {
+                DetailsMovie detailsMovie = response.body();
+                Log.d(TAG, "Datos cargados");
+                onDetailsMovieListener.onResolve(detailsMovie);
+            }
+
+            @Override
+            public void onFailure(Call<DetailsMovie> call, Throwable t) {
+                Log.e(TAG, t.toString());
+                onDetailsMovieListener.onReject(t);
+            }
+        });
+
+
+
     }
 
-    class DetailsMovieAsyncTask extends AsyncTask<String, Integer, Boolean>{
+    @Override
+    public void getVideosWS(OnGetVideosListener onGetVideosListener, int movieId) {
+        ApiInterface apiInterface = ApiClient.buildClient()
+                .create(ApiInterface.class);
 
-        @Override
-        protected Boolean doInBackground(String... strings) {
-
-            String URL = "https://api.themoviedb.org/3/movie/" + idMovie + "?api_key=e61e68e7e4858d661a6479587ff29ec2&language=es-ES&append_to_response=1";
-
-            Post post = new Post();
-            JSONObject objectDetailsMovie = post.getServerDataGetObject(URL);
-            JSONArray jsonDetailsArray = new JSONArray();
-            jsonDetailsArray.put(objectDetailsMovie);
-            detailsMoviesArrayList = DetailsMovie.getArrayListFromJSON(jsonDetailsArray);
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean res) {
-            if(res){
-                if(detailsMoviesArrayList != null && detailsMoviesArrayList.size() > 0){
-                    onDetailsMovieListener.onResolve(detailsMoviesArrayList);
-                }
-            } else{
-                onDetailsMovieListener.onReject("Error al traer los datos del WS/API");
+        Call<VideoListResponse> videosCall = apiInterface.getMovieVideos(movieId, API_KEY, LANGUAGE_EN);
+        videosCall.enqueue(new Callback<VideoListResponse>() {
+            @Override
+            public void onResponse(Call<VideoListResponse> call, Response<VideoListResponse> response) {
+                VideoListResponse videoListResponse = response.body();
+                Log.d(TAG, "Videos cargados");
+                onGetVideosListener.onResolve(videoListResponse.getResults());
             }
-        }
+
+            @Override
+            public void onFailure(Call<VideoListResponse> call, Throwable t) {
+                Log.e(TAG, t.toString());
+                onGetVideosListener.onReject(t);
+            }
+        });
     }
 
 }

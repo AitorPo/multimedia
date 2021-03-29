@@ -1,4 +1,4 @@
-package com.androidavanzado.retrof_movies.movies.genres.view;
+package com.androidavanzado.retrof_movies.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -59,8 +59,8 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            tvGenre = view.findViewById(R.id.tvGenre);
-            cardViewGenre = view.findViewById(R.id.cardViewGenre);
+            tvGenre = view.findViewById(R.id.tvItemGenre);
+            cardViewGenre = view.findViewById(R.id.item_genre_cardview);
         }
 
         public void bind(Genre genre, final GenresAdapter.OnCardClickListener cardClickListener){

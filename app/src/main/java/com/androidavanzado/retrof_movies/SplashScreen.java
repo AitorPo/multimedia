@@ -1,4 +1,4 @@
-package com.androidavanzado.asynctasktestmovies_v2;
+package com.androidavanzado.retrof_movies;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.androidavanzado.asynctasktestmovies_v2.movies.listMovies.popularList.view.MovieListActivity;
+import com.androidavanzado.retrof_movies.movies.listMovies.popularList.view.MovieListActivity;
 
 public class SplashScreen extends AppCompatActivity {
 

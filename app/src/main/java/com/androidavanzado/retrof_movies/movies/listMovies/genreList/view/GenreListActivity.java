@@ -61,6 +61,7 @@ public class GenreListActivity extends AppCompatActivity implements GenreListCon
 
         initComponents();
         setListeners();
+
         presenter = new GenreListPresenter(this);
         presenter.getGenreList();
     }

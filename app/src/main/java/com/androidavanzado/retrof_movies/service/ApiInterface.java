@@ -19,12 +19,14 @@ public interface ApiInterface {
     @GET("movie/popular")
     Call<MovieListResponse> getPopularMovies(
             @Query("api_key") String apiKey,
-            @Query("language") String language);
+            @Query("language") String language,
+            @Query("page") int page);
 
     @GET("movie/top_rated")
     Call<MovieListResponse> getTopRatedMovies(
             @Query("api_key") String apiKey,
-            @Query("language") String language);
+            @Query("language") String language,
+            @Query("page") int page);
 
     @GET("discover/movie")
     Call<MovieListResponse> getMoviesByGenre(

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,17 +57,19 @@ public class CastListAdapter extends RecyclerView.Adapter<CastListAdapter.ViewHo
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         // TODO gestionar pb de imagen
+                        holder.pbCastImage.setVisibility(View.GONE);
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         // TODO gestionar pb de imagen
+                        holder.pbCastImage.setVisibility(View.GONE);
                         return false;
                     }
                 })
                 .apply(RequestOptions.circleCropTransform())
-                // .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                 .into(holder.ivProfilePath);
     }
 
@@ -78,8 +81,8 @@ public class CastListAdapter extends RecyclerView.Adapter<CastListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView tvName;
-        //public final TextView tvCharacter;
         public final ImageView ivProfilePath;
+        public final ProgressBar pbCastImage;
 
         public Cast cast;
 
@@ -87,8 +90,8 @@ public class CastListAdapter extends RecyclerView.Adapter<CastListAdapter.ViewHo
             super(view);
             mView = view;
             tvName = view.findViewById(R.id.tvName);
-            //tvCharacter = view.findViewById(R.id.tvCharacter);
             ivProfilePath = view.findViewById(R.id.ivProfilePath);
+            pbCastImage = view.findViewById(R.id.pbCastImage);
         }
     }
 }

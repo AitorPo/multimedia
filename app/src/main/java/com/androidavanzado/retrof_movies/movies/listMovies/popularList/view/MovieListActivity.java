@@ -27,13 +27,13 @@ import com.androidavanzado.retrof_movies.movies.genres.view.GenresActivity;
 import com.androidavanzado.retrof_movies.movies.listMovies.popularList.presenter.MoviePresenter;
 import com.androidavanzado.retrof_movies.movies.listMovies.popularList.contract.MovieContract;
 import com.androidavanzado.retrof_movies.movies.listMovies.topRated.view.TopRatedActivity;
-import com.androidavanzado.retrof_movies.utils.OnMovieItemClickListener;
+import com.androidavanzado.retrof_movies.utils.OnItemClickListener;
 
 import java.util.ArrayList;
 
 import static com.androidavanzado.retrof_movies.utils.Constants.MOVIE_ID;
 
-public class MovieListActivity extends AppCompatActivity implements MovieContract.View, MovieListAdapter.OnItemClickListener {
+public class MovieListActivity extends AppCompatActivity implements MovieContract.View, OnItemClickListener {
     private static final String TAG = "MovieListActivity";
     //public static int idMovie;
 
@@ -44,17 +44,17 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout refreshLayout;
     private ArrayList<Movie> movieArrayList;
-    private OnMovieItemClickListener onMovieItemClickListener;
     private Button btnRetry;
     private View llError;
     private TextView tvError;
 
 
-    private int currentPage = 1;
+    private int page = 1;
 
+    // Gestión del scroll de paginado
     private int previousTotal = 0;
-    private boolean loading;
-    //private int visibleThreshold = 5;
+    private boolean loading = true;
+    private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
     @Override
@@ -66,11 +66,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
 
         initComponents();
 
-        presenter = new MoviePresenter(this);
-        presenter.getMovieList(this);
-
         setListeners();
 
+        presenter = new MoviePresenter(this);
+        presenter.getMovieList(this);
     }
 
     private void initComponents(){
@@ -89,6 +88,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
 
         layoutManager = new LinearLayoutManager(this);
         rvMovies.setLayoutManager(layoutManager);
+
+        adapter = new MovieListAdapter(movieArrayList, this, this);
+        rvMovies.setItemAnimator(new DefaultItemAnimator());
+        rvMovies.setAdapter(adapter);
 
     }
 
@@ -114,9 +117,24 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
 
     @Override
     public void onSuccess(ArrayList<Movie> movies) {
+        pbProgress.setVisibility(View.GONE);
+        rvMovies.setVisibility(View.VISIBLE);
+        llError.setVisibility(View.GONE);
 
-        setDataInRecyclerView(movies);
-        //hideProgress();
+        movieArrayList.addAll(movies);
+        adapter.notifyDataSetChanged();
+
+        page ++;
+        Log.d(TAG, String.valueOf(page));
+        Log.d(TAG, String.valueOf(movieArrayList.size()));
+
+        refreshLayout.setOnRefreshListener(() -> {
+            movieArrayList.clear();
+            movieArrayList.addAll(movies);
+            Log.d(TAG, "Lista refrescada");
+            refreshLayout.setRefreshing(false);
+        });
+
     }
 
     private void setListeners(){
@@ -130,7 +148,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
             }
         });
 
-        /*rvMovies.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rvMovies.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -139,42 +157,26 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
                 totalItemCount = layoutManager.getItemCount();
                 firstVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
 
-                if (visibleItemCount + firstVisibleItem >= totalItemCount / 2){
-                    if (loading){
-
-                        presenter.getMovieList(currentPage);
+                // Lógica de paginado al hacer scroll
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
                     }
                 }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold)) {
+                    presenter.getMoreMovies(getBaseContext(), page);
+                    loading = true;
+                }
+
             }
-        });*/
-    }
-
-
-
-    private void setDataInRecyclerView(ArrayList<Movie> movies){
-        pbProgress.setVisibility(View.GONE);
-        rvMovies.setVisibility(View.VISIBLE);
-        llError.setVisibility(View.GONE);
-
-        adapter = new MovieListAdapter(movieArrayList, this, this);
-        rvMovies.setAdapter(adapter);
-        movieArrayList.addAll(movies);
-        adapter.notifyDataSetChanged();
-
-        Log.d(TAG, String.valueOf(currentPage));
-        Log.d(TAG, String.valueOf(movieArrayList.size()));
-
-        refreshLayout.setOnRefreshListener(() -> {
-            setDataInRecyclerView(movieArrayList);
-            Log.d(TAG, "Lista refrescada");
-            refreshLayout.setRefreshing(false);
         });
     }
 
     @Override
     public void onFailure(Throwable throwable) {
         showError();
-
     }
 
 
@@ -191,29 +193,15 @@ public class MovieListActivity extends AppCompatActivity implements MovieContrac
 
     public void hideError() {
         llError.setVisibility(View.GONE);
-        /*if (rvMovies == null){
-            showProgress();
-        } else {
-            hideProgress();
-        }*/
-    }
+        }
 
 
     @Override
     public void onCardClick(int position) {
         movieArrayList.get(position);
         Intent toDetaildIntent = new Intent(MovieListActivity.this, DetailsMovieActivity.class);
-        //Obtenemos los datos de la película "clicada"
-        //String movieTitle = movies.get(position).getTitle();
         int idMovie = movieArrayList.get(position).getId();
         toDetaildIntent.putExtra(MOVIE_ID, idMovie);
-        //String image = movies.get(position).getPoster_path();
-        //Pasamos los datos de la película "clicada" al activity de detalles
-        //intent.putExtra("DETAILS_MOVIE", position);
-        //intent.putExtra(EXTRA_MESSAGE, movieTitle);
-        //intent.putExtra(EXTRA_MESSAGE_ID, idMovie);
-        //intent.putExtra(EXTRA_MESSAGE_IMAGE, image);
-        //Iniciamos el intent
         startActivity(toDetaildIntent);
     }
 }

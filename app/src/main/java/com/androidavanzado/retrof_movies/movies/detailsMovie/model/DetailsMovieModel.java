@@ -1,24 +1,12 @@
 package com.androidavanzado.retrof_movies.movies.detailsMovie.model;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.androidavanzado.retrof_movies.beans.DetailsMovie;
-import com.androidavanzado.retrof_movies.beans.Video;
 import com.androidavanzado.retrof_movies.beans.response.VideoListResponse;
 import com.androidavanzado.retrof_movies.movies.detailsMovie.contract.DetailsMovieContract;
-import com.androidavanzado.retrof_movies.movies.listMovies.popularList.view.MovieListActivity;
 import com.androidavanzado.retrof_movies.service.ApiClient;
 import com.androidavanzado.retrof_movies.service.ApiInterface;
-import com.androidavanzado.retrof_movies.utils.Post;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +14,6 @@ import retrofit2.Response;
 
 import static com.androidavanzado.retrof_movies.utils.Constants.API_KEY;
 import static com.androidavanzado.retrof_movies.utils.Constants.APPEND_TO_RESPONSE_CAST;
-import static com.androidavanzado.retrof_movies.utils.Constants.APPEND_TO_RESPONSE_VIDEOS;
 import static com.androidavanzado.retrof_movies.utils.Constants.LANGUAGE;
 import static com.androidavanzado.retrof_movies.utils.Constants.LANGUAGE_EN;
 

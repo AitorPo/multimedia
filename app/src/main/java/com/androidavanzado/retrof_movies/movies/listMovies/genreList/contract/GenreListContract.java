@@ -18,10 +18,7 @@ public interface GenreListContract {
     }
 
     interface View{
-        void showProgress();
-        void hideProgress();
         void onSuccess(ArrayList<Movie> genreMovies);
         void onFailure(Throwable throwable);
     }
-
 }

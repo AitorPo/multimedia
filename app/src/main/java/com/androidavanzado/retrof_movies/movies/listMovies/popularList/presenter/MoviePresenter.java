@@ -8,7 +8,7 @@ import com.androidavanzado.retrof_movies.movies.listMovies.popularList.model.Mov
 
 import java.util.ArrayList;
 
-public class MoviePresenter implements MovieContract.Presenter{
+public class MoviePresenter implements MovieContract.Presenter, MovieContract.Model.OnListMovieListener {
     private MovieModel movieModel;
     private MovieContract.View view;
 
@@ -20,16 +20,21 @@ public class MoviePresenter implements MovieContract.Presenter{
     @Override
     public void getMovieList(Context context) {
 
-        movieModel.getMoviesWS(new MovieContract.Model.OnListMovieListener() {
-            @Override
-            public void onResolve(ArrayList<Movie> movies) {
-                view.onSuccess(movies);
-            }
+        movieModel.getMoviesWS(this, 1);
+    }
 
-            @Override
-            public void onReject(Throwable throwable) {
-                view.onFailure(throwable);
-            }
-        });
+    @Override
+    public void getMoreMovies(Context context, int page) {
+        movieModel.getMoviesWS(this, page);
+    }
+
+    @Override
+    public void onResolve(ArrayList<Movie> movies) {
+        view.onSuccess(movies);
+    }
+
+    @Override
+    public void onReject(Throwable throwable) {
+        view.onFailure(throwable);
     }
 }

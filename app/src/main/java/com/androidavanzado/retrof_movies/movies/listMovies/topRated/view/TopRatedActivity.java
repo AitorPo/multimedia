@@ -6,13 +6,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -25,21 +28,33 @@ import com.androidavanzado.retrof_movies.movies.genres.view.GenresActivity;
 import com.androidavanzado.retrof_movies.movies.listMovies.popularList.view.MovieListActivity;
 import com.androidavanzado.retrof_movies.movies.listMovies.topRated.contract.TopRatedContract;
 import com.androidavanzado.retrof_movies.movies.listMovies.topRated.presenter.TopRatedPresenter;
+import com.androidavanzado.retrof_movies.utils.OnItemClickListener;
 
 import java.util.ArrayList;
 
 import static com.androidavanzado.retrof_movies.utils.Constants.MOVIE_ID;
 
-public class TopRatedActivity extends AppCompatActivity implements TopRatedContract.View {
+public class TopRatedActivity extends AppCompatActivity implements TopRatedContract.View, OnItemClickListener {
     private static final String TAG = "TopRatedActivity";
     private TopRatedPresenter presenter;
     private TopRatedAdapter adapter;
     private ProgressBar pbProgress;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
-    private ArrayList<Movie> topRatedMovies;
-    private RecyclerView.LayoutManager layoutManager;
-    public static int idTopRatedMovie;
+    private ArrayList<Movie> topRatedMoviesArrayList;
+    private LinearLayoutManager layoutManager;
+    private Button btnRetry;
+    private View llError;
+    private TextView tvError;
+
+
+    private int page = 1;
+
+    // Gestión del scroll de paginado
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 5;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,17 +65,55 @@ public class TopRatedActivity extends AppCompatActivity implements TopRatedContr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initComponents();
+        setListeners();
 
         presenter = new TopRatedPresenter(this);
-        presenter.getTopRatedMovies();
+        presenter.getTopRatedMovies(this);
 
+    }
+
+    private void setListeners() {
+        btnRetry.setOnClickListener(v -> {
+            pbProgress.setVisibility(View.VISIBLE);
+            hideError();
+
+            presenter.getTopRatedMovies(TopRatedActivity.this);
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = layoutManager.getItemCount();
+                firstVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
+
+                // Lógica de paginado al hacer scroll
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold)) {
+                    presenter.getMoreTopRatedMovies(getBaseContext(), page);
+                    loading = true;
+                }
+
+            }
+        });
     }
 
     private void initComponents(){
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        topRatedMovies = new ArrayList<>();
+        topRatedMoviesArrayList = new ArrayList<>();
 
+        llError = findViewById(R.id.llMovieListError);
+        btnRetry = findViewById(R.id.btnMovieListRetry);
+        tvError = findViewById(R.id.tvMovieListError);
 
         refreshLayout = findViewById(R.id.refreshPopularList);
 
@@ -68,6 +121,10 @@ public class TopRatedActivity extends AppCompatActivity implements TopRatedContr
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new TopRatedAdapter(topRatedMoviesArrayList, this, this);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -91,63 +148,56 @@ public class TopRatedActivity extends AppCompatActivity implements TopRatedContr
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
-    public void showEmptyView() {
-
-    }
-
-    @Override
-    public void hideEmptyView() {
-
-    }
-
-    @Override
-    public void showProgress() {
-        pbProgress.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
+    public void onSuccess(ArrayList<Movie> topRatedMovies) {
         pbProgress.setVisibility(View.GONE);
-    }
+        recyclerView.setVisibility(View.VISIBLE);
+        llError.setVisibility(View.GONE);
 
-    private void setDataInRecyclerView(ArrayList<Movie> topRatedMovies){
-        adapter = new TopRatedAdapter(topRatedMovies, this, new TopRatedAdapter.OnItemClickListener() {
-            @Override
-            public void onCardClick(int id, int position) {
-                Intent toDetaildIntent = new Intent(TopRatedActivity.this, DetailsMovieActivity.class);
-                //Obtenemos los datos de la película "clicada"
-                //String movieTitle = movies.get(position).getTitle();
-                int idMovie = topRatedMovies.get(position).getId();
-                toDetaildIntent.putExtra(MOVIE_ID, idMovie);
-                //String image = movies.get(position).getPoster_path();
-                //Pasamos los datos de la película "clicada" al activity de detalles
-                //intent.putExtra("DETAILS_MOVIE", position);
-                /*intent.putExtra(EXTRA_MESSAGE, movieTitle);
-                intent.putExtra(EXTRA_MESSAGE_ID, idMovie);
-                intent.putExtra(EXTRA_MESSAGE_IMAGE, image);*/
-                //Iniciamos el intent
-                startActivity(toDetaildIntent);
-            }
-        });
-        recyclerView.setAdapter(adapter);
+        topRatedMoviesArrayList.addAll(topRatedMovies);
         adapter.notifyDataSetChanged();
+
+        page ++;
+        Log.d(TAG, String.valueOf(page));
+        Log.d(TAG, String.valueOf(topRatedMoviesArrayList.size()));
+
         refreshLayout.setOnRefreshListener(() -> {
-            setDataInRecyclerView(topRatedMovies);
-            Log.d(TAG, "Lista topRated refrescada");
+            topRatedMoviesArrayList.clear();
+            topRatedMoviesArrayList.addAll(topRatedMovies);
+            Log.d(TAG, "Lista refrescada");
             refreshLayout.setRefreshing(false);
         });
     }
 
     @Override
-    public void onSuccess(ArrayList<Movie> topRatedMovies) {
-        setDataInRecyclerView(topRatedMovies);
+    public void onFailure(Throwable throwable) {
+        Log.e(TAG, throwable.getMessage());
+        showError();
+        Toast.makeText(this, "Error al recibir los datos de la API", Toast.LENGTH_LONG).show();
+    }
+
+    public void showError() {
+        Toast.makeText(this, "Comprueba tu conexión a internet", Toast.LENGTH_LONG).show();
+        pbProgress.setVisibility(View.GONE);
+
+        recyclerView.setVisibility(View.GONE);
+        llError.setVisibility(View.VISIBLE);
+
+        tvError.setText("Fallo de conexión");
+    }
+
+
+    public void hideError() {
+        llError.setVisibility(View.GONE);
+
     }
 
     @Override
-    public void onFailure(Throwable throwable) {
-        Log.e(TAG, throwable.getMessage());
-        Toast.makeText(this, "Error al recibir los datos de la API", Toast.LENGTH_LONG).show();
+    public void onCardClick(int position) {
+        topRatedMoviesArrayList.get(position);
+        Intent toDetaildIntent = new Intent(TopRatedActivity.this, DetailsMovieActivity.class);
+        int idMovie = topRatedMoviesArrayList.get(position).getId();
+        toDetaildIntent.putExtra(MOVIE_ID, idMovie);
+        startActivity(toDetaildIntent);
     }
 }

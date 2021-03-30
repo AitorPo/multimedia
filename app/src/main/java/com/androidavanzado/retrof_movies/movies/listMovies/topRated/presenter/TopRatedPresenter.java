@@ -1,5 +1,7 @@
 package com.androidavanzado.retrof_movies.movies.listMovies.topRated.presenter;
 
+import android.content.Context;
+
 import com.androidavanzado.retrof_movies.beans.Movie;
 import com.androidavanzado.retrof_movies.movies.listMovies.topRated.contract.TopRatedContract;
 import com.androidavanzado.retrof_movies.movies.listMovies.topRated.model.TopRatedModel;
@@ -16,26 +18,22 @@ public class TopRatedPresenter implements TopRatedContract.Presenter, TopRatedCo
     }
 
     @Override
-    public void getTopRatedMovies() {
-        if (view != null){
-            view.showProgress();
-        }
-        topRatedModel.getTopRatedMoviesWS(this);
+    public void getTopRatedMovies(Context context) {
+        topRatedModel.getTopRatedMoviesWS(this, 1);
+    }
+
+    @Override
+    public void getMoreTopRatedMovies(Context context, int page) {
+        topRatedModel.getTopRatedMoviesWS(this, page);
     }
 
     @Override
     public void onResolve(ArrayList<Movie> topRatedMovies) {
-        if (topRatedMovies != null){
-            view.hideProgress();
-        }
         view.onSuccess(topRatedMovies);
     }
 
     @Override
     public void onReject(Throwable throwable) {
-        if (view != null){
-            view.hideProgress();
-        }
         view.onFailure(throwable);
     }
 }

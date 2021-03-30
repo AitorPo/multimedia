@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidavanzado.retrof_movies.R;
 import com.androidavanzado.retrof_movies.beans.Movie;
+import com.androidavanzado.retrof_movies.utils.OnItemClickListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -23,32 +25,32 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHo
 
     private ArrayList<Movie> topRatedMovies;
     Context context;
-    private OnItemClickListener onCardClickListener;
+    private OnItemClickListener onItemClickListener;
 
 
-    public TopRatedAdapter(ArrayList<Movie> topRatedMovies, Context context, OnItemClickListener onCardClickListener){
+    public TopRatedAdapter(ArrayList<Movie> topRatedMovies, Context context, OnItemClickListener onItemClickListener){
         this.topRatedMovies = topRatedMovies;
         this.context = context;
-        this.onCardClickListener = onCardClickListener;
+        this.onItemClickListener = onItemClickListener;
     }
     @NonNull
     @Override
     public TopRatedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movie_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, onItemClickListener);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull TopRatedAdapter.ViewHolder holder, int position) {
         holder.movie = topRatedMovies.get(position);
-        holder.bind(topRatedMovies.get(position),onCardClickListener);
 
         holder.tvTitle.setText(holder.movie.getTitle());
         //Obtenemos el string del double que devuelve getVoteAverage()
         holder.tvVote.setText(String.valueOf(holder.movie.getVoteAverage()));
         Glide.with(context).load(IMAGE_BASE_URL + holder.movie.getPoster_path())
+                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                 .into(holder.ivPoster);
     }
 
@@ -57,28 +59,30 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHo
         return topRatedMovies.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final TextView tvTitle;
         public final TextView tvVote;
         public final ImageView ivPoster;
         public final CardView cardView;
         public Movie movie;
+        public final OnItemClickListener onItemClickListener;
 
-        public ViewHolder(View view) {
+
+        public ViewHolder(View view, OnItemClickListener onItemClickListener) {
             super(view);
             tvTitle = view.findViewById(R.id.tvTitle);
             tvVote = view.findViewById(R.id.tvVoteAverage);
             ivPoster = view.findViewById(R.id.ivPoster);
             cardView = view.findViewById(R.id.cardView);
+            this.onItemClickListener = onItemClickListener;
+
+            view.setOnClickListener(this);
         }
 
-        public void bind(Movie movie, final OnItemClickListener onItemClickListener){
-            cardView.setOnClickListener(v -> onItemClickListener.onCardClick(movie.getId(), getAdapterPosition()));
+        public void onClick(View v) {
+            onItemClickListener.onCardClick(getAdapterPosition());
         }
-    }
-    public interface OnItemClickListener {
-        void onCardClick(int id, int position);
-    }
 
+    }
 }

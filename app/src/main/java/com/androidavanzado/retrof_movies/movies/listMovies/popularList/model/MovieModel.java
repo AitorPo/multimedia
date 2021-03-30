@@ -22,16 +22,14 @@ public class MovieModel implements MovieContract.Model {
 
 
     @Override
-    public void getMoviesWS(final OnListMovieListener onListMovieListener) {
+    public void getMoviesWS(final OnListMovieListener onListMovieListener, int page) {
         ApiInterface apiInterface = ApiClient.buildClient()
                 .create(ApiInterface.class);
 
-        Call<MovieListResponse> call = apiInterface.getPopularMovies(API_KEY, LANGUAGE);
+        Call<MovieListResponse> call = apiInterface.getPopularMovies(API_KEY, LANGUAGE, page);
         call.enqueue(new Callback<MovieListResponse>() {
             @Override
             public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
-                int totalPages= response.body().getTotalPages();
-
                 ArrayList<Movie> movies = response.body().getResults();
                 Log.d(TAG, "Lista cargada");
                 onListMovieListener.onResolve(movies);

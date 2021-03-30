@@ -1,11 +1,9 @@
 package com.androidavanzado.retrof_movies.adapters;
 
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +13,9 @@ import android.widget.TextView;
 
 import com.androidavanzado.retrof_movies.R;
 import com.androidavanzado.retrof_movies.beans.Movie;
-import com.androidavanzado.retrof_movies.utils.OnMovieItemClickListener;
+import com.androidavanzado.retrof_movies.utils.OnItemClickListener;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -30,18 +25,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     private ArrayList<Movie> movies;
     Context context;
-    private ArrayList<Movie> originalList;
-    private MovieListAdapter.OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;
 
-    public MovieListAdapter(ArrayList<Movie> movies, Context context, MovieListAdapter.OnItemClickListener onItemClickListener) {
+    public MovieListAdapter(ArrayList<Movie> movies, Context context, OnItemClickListener onItemClickListener) {
         this.movies = movies;
         this.context = context;
         this.onItemClickListener = onItemClickListener;
-    }
-
-    public void appendMovies(ArrayList<Movie> moviesToAppend){
-        movies.addAll(moviesToAppend);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -56,26 +45,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         holder.movie = movies.get(position);
-        //holder.bind(movies.get(position), onItemClickListener);
 
         holder.tvTitle.setText(holder.movie.getTitle());
         //Obtenemos el string del double que devuelve getVoteAverage()
         holder.tvVote.setText(String.valueOf(holder.movie.getVoteAverage()));
         Glide.with(context).load(IMAGE_BASE_URL + holder.movie.getPoster_path())
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        // TODO gestionar progressbar
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        // TODO gestionar progressbar
-                        return false;
-                    }
-                })
-                // .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                 .into(holder.ivPoster);
     }
 
@@ -91,9 +66,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         public final ImageView ivPoster;
         public final CardView cardView;
         public Movie movie;
-        public final MovieListAdapter.OnItemClickListener onItemClickListener;
+        public final OnItemClickListener onItemClickListener;
 
-        public ViewHolder(View view, MovieListAdapter.OnItemClickListener onItemClickListener) {
+        public ViewHolder(View view, OnItemClickListener onItemClickListener) {
             super(view);
             mView = view;
             tvTitle = view.findViewById(R.id.tvTitle);
@@ -111,7 +86,5 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             onItemClickListener.onCardClick(getAdapterPosition());
         }
     }
-    public interface OnItemClickListener {
-        void onCardClick(int position);
-    }
+
 }

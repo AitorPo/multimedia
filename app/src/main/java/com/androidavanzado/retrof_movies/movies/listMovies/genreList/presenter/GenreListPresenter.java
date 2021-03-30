@@ -18,17 +18,11 @@ public class GenreListPresenter implements GenreListContract.Presenter {
 
     @Override
     public void getGenreList() {
-        if (view != null){
-            view.showProgress();
-        }
         genreListModel.getMoviesByGenreWS(new GenreListContract.Model.OnGenreListListener() {
             @Override
             public void onResolve(ArrayList<Movie> genreMovies) {
                 view.onSuccess(genreMovies);
-                if (genreMovies != null){
-                    view.hideProgress();
                 }
-            }
 
             @Override
             public void onReject(Throwable throwable) {

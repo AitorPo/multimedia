@@ -21,11 +21,11 @@ public class TopRatedModel implements TopRatedContract.Model {
     private final String TAG = "TopRatedModel";
 
     @Override
-    public void getTopRatedMoviesWS(OnTopRatedListener onTopRatedListener) {
+    public void getTopRatedMoviesWS(OnTopRatedListener onTopRatedListener, int page) {
         ApiInterface apiInterface = ApiClient.buildClient()
                 .create(ApiInterface.class);
 
-        Call<MovieListResponse> call = apiInterface.getTopRatedMovies(API_KEY, LANGUAGE);
+        Call<MovieListResponse> call = apiInterface.getTopRatedMovies(API_KEY, LANGUAGE, page);
         call.enqueue(new Callback<MovieListResponse>() {
             @Override
             public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {

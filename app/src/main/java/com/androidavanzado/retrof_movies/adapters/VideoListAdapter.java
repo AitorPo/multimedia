@@ -50,14 +50,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.video = videos.get(position);
         holder.bind(holder.video, onItemClickListener);
         holder.tvName.setText(holder.video.getName());
-        //holder.tvNameVideoView.setText(holder.video.getName());
-
-        /*holder.vvVideo.setVideoURI(Uri.parse(YOUTUBE_URL_VIDEO + holder.video.getKey()));
-        holder.vvVideo.setMediaController(holder.mediaController);
-        holder.mediaController.setAnchorView(holder.vvVideo);*/
-
-        //holder.wvVideo.loadData(videos.get(position).getUrl(), "text/html", "utf-8");
-
         Glide.with(context)
                 .load(YOUTUBE_THUMBNAIL_URL + holder.video.getKey() + "/" + holder.getAdapterPosition() + ".jpg")
 
@@ -73,15 +65,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView tvName;
-        //public final TextView tvNameVideoView;
         public final ImageView ivThumbnail;
         public final ImageView ivPlayVideo;
         public final CardView cvVideo;
-        //public final CardView cvWebViewVideo;
-        //public final WebView wvVideo;
 
         public Video video;
-        //public MediaController mediaController;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,23 +80,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             ivThumbnail = itemView.findViewById(R.id.ivThumbnail);
             ivPlayVideo = itemView.findViewById(R.id.ivPlayVideo);
             cvVideo = itemView.findViewById(R.id.cvVideo);
-            //cvWebViewVideo = itemView.findViewById(R.id.cvWebViewVideo);
-            /*wvVideo = itemView.findViewById(R.id.wvVideo);
-            wvVideo.getSettings().setJavaScriptEnabled(true);
-            wvVideo.setWebChromeClient(new WebChromeClient(){
-
-            });*/
-            //mediaController = new MediaController(context);
 
         }
         public void bind(Video video, final VideoListAdapter.OnItemClickListener cardClickListener){
             ivPlayVideo.setOnClickListener(v -> cardClickListener.onCardClick(video.getKey(), getAdapterPosition()));
         }
-
-        /*public void bind(Video video, final VideoListAdapter.OnItemClickListener onItemClickListener){
-            wvVideo.setOnClickListener(v -> onItemClickListener.onCardClick(video.getKey(), getAdapterPosition()));
-            //wvVideo.setOnErrorListener((mp, what, extra) -> true);
-        }*/
     }
 
     public interface OnItemClickListener {
